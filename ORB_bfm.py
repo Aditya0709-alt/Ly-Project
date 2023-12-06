@@ -6,8 +6,8 @@ import matplotlib.pyplot as plt
 folder_path = r'C:\Users\mbhar\Desktop\Chopy\Ly-Project\output'
 
 # Load images
-image1_path = os.path.join(folder_path, 'set6_1.tif')
-image2_path = os.path.join(folder_path, 'set6_2.tif')
+image1_path = os.path.join(folder_path, 'left_half_set3_2.tif')
+image2_path = os.path.join(folder_path, 'right_half_set3_2.tif')
 
 
 

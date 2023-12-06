@@ -3,11 +3,11 @@ import numpy as np
 import os
 import matplotlib.pyplot as plt
 
-folder_path = r'C:\Users\mbhar\Desktop\Chopy\Ly-Project\output'
+folder_path = r'C:\Users\mbhar\Desktop\Chopy\Ly-Project\img'
 
 # Load images
-image1_path = os.path.join(folder_path, 'set6_1.tif')
-image2_path = os.path.join(folder_path, 'set6_2.tif')
+image1_path = os.path.join(folder_path, 'set7_2.tif')
+image2_path = os.path.join(folder_path, 'set7_3.tif')
 
 
 
@@ -44,11 +44,14 @@ points2 = np.float32([keypoints2[m.trainIdx].pt for m in good_matches]).reshape(
 # Find the perspective transformation matrix
 M, mask = cv2.findHomography(points2, points1, cv2.RANSAC, 5.0)
 
+print(M)
+
 # Get the dimensions of the first image
 h1, w1 = image1.shape[:2]
 
 # Warp the second image to align with the first
 warped_image2 = cv2.warpPerspective(image2, M, (w1 + image2.shape[1], h1))
+
 
 # Combine the two images
 result = np.copy(warped_image2)
