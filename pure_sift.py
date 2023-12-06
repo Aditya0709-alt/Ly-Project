@@ -1,6 +1,8 @@
 import cv2
 import numpy as np
 import os
+import matplotlib.pyplot as plt
+
 
 def image_mosaicing(img1, img2):
     # Initialize SIFT detector
@@ -29,13 +31,17 @@ def image_mosaicing(img1, img2):
 
     homography_matrix, _ = cv2.findHomography(src_pts, dst_pts, 0)
 
-    # Warp the images
-    img1_warped = cv2.warpPerspective(img1, homography_matrix, (img1.shape[1] + img2.shape[1], img1.shape[0]))
+    h1, w1 = image1.shape[:2]
 
-    # Combine the images
-    img1_warped[:, :img2.shape[1]] = img2
+    # Warp the second image to align with the first
+    warped_image2 = cv2.warpPerspective(image2, homography_matrix, (w1 + image2.shape[1], h1))
 
-    return img1_warped
+    # Combine the two images
+    result = np.copy(warped_image2)
+    result[:h1, :w1] = image1
+
+
+    return image1
 
 # Example usage
 folder_path = r'C:\Users\mbhar\Desktop\Chopy\Ly-Project\output'
@@ -50,6 +56,8 @@ image2 = cv2.imread(image2_path)
 
 result = image_mosaicing(image1, image2)
 
-cv2.imshow("Result", result)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+canvas_rgb = cv2.cvtColor(result, cv2.COLOR_BGR2RGB)
+# Display the result
+plt.imshow(canvas_rgb)
+plt.axis('off')
+plt.show()

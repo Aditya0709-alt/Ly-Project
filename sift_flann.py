@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import os
+import matplotlib.pyplot as plt
 
 def image_mosaicing(img1, img2):
     # Initialize SIFT detector
@@ -52,6 +53,8 @@ image1 = cv2.imread(image1_path)
 image2 = cv2.imread(image2_path)
 
 result = image_mosaicing(image1, image2)
-cv2.imshow("Result", result)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+canvas_rgb = cv2.cvtColor(result, cv2.COLOR_BGR2RGB)
+# Display the result
+plt.imshow(canvas_rgb)
+plt.axis('off')
+plt.show()
