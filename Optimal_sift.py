@@ -3,23 +3,20 @@ import numpy as np
 import os
 import matplotlib.pyplot as plt
 
-folder_path = r'C:\Users\mbhar\Desktop\Chopy\Ly-Project\img'
+folder_path = r'{PATH_TO_FOLDER}'
 
 # Load images
 image1_path = os.path.join(folder_path, 'set7_2.tif')
 image2_path = os.path.join(folder_path, 'set7_3.tif')
 
 
-
-# Load images
 image1 = cv2.imread(image1_path)
 image2 = cv2.imread(image2_path)
 
-# Convert images to grayscale
 gray1 = cv2.cvtColor(image1, cv2.COLOR_BGR2GRAY)
 gray2 = cv2.cvtColor(image2, cv2.COLOR_BGR2GRAY)
 
-# Use SIFT to find keypoints and descriptors
+# SiFT descriptor
 sift = cv2.SIFT_create()
 keypoints1, descriptors1 = sift.detectAndCompute(gray1, None)
 keypoints2, descriptors2 = sift.detectAndCompute(gray2, None)
@@ -41,12 +38,11 @@ for m, n in matches:
 points1 = np.float32([keypoints1[m.queryIdx].pt for m in good_matches]).reshape(-1, 1, 2)
 points2 = np.float32([keypoints2[m.trainIdx].pt for m in good_matches]).reshape(-1, 1, 2)
 
-# Find the perspective transformation matrix
+# Find homography
 M, mask = cv2.findHomography(points2, points1, cv2.RANSAC, 5.0)
+#print(mask)
 
 print(M)
-
-# Get the dimensions of the first image
 h1, w1 = image1.shape[:2]
 
 # Warp the second image to align with the first
